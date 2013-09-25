@@ -4,18 +4,19 @@ import paujo.liquidMatter.mod.LiquidMatter;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockFluid;
 import net.minecraft.block.material.Material;
 
 public class LiquidMatterBlocks {
 
-	public static Block liquidMatterBlock;
+	public static BlockFluid liquidMatterFlowing;
 	
 	/*
 	 * Initialize all blocks
 	 */
 	public static void initBlocks() {
-		liquidMatterBlock = new LiquidMatterBlock();
-		registerBlock(liquidMatterBlock, "Liquid Matter");
+		liquidMatterFlowing = new LiquidMatterFlowing();
+		registerBlock(liquidMatterFlowing, "Liquid Matter (Flowing)");
 	}
 
 

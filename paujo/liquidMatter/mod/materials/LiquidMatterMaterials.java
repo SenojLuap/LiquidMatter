@@ -9,6 +9,6 @@ public class LiquidMatterMaterials {
 	public static Material liquidMatterMaterial;
 	
 	public static void initMaterials() {
-		liquidMatterMaterial = new MaterialLiquid(MapColor.iceColor);
+		liquidMatterMaterial = new LiquidMatterMaterial();
 	}
 }
