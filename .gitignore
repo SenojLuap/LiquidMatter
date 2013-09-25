@@ -4,3 +4,17 @@
 *.jar
 *.war
 *.ear
+
+/cpw
+/ibxm
+/net
+/paulscode
+*.cfg
+fmlversion.properties
+forge_logo.png
+mcp.png
+mcpmod.info
+Start.java
+/assets/forge
+deobfuscation_data-1.6.4.lzma
+*~
