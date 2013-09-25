@@ -2,7 +2,6 @@ package paujo.liquidMatter.mod;
 
 import paujo.liquidMatter.mod.blocks.LiquidMatterBlocks;
 import paujo.liquidMatter.mod.fluids.LiquidMatterFluids;
-import paujo.liquidMatter.mod.materials.LiquidMatterMaterials;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -26,7 +25,6 @@ public class LiquidMatter {
 	@EventHandler
 	public void load(FMLInitializationEvent event) {
 		initCreativeTab();
-		LiquidMatterMaterials.initMaterials();
 		LiquidMatterFluids.initFluids();
 		LiquidMatterBlocks.initBlocks();
 	}
