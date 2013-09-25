@@ -14,7 +14,7 @@ public class LiquidMatterBlocks {
 	 * Initialize all blocks
 	 */
 	public static void initBlocks() {
-		liquidMatterBlock = new LiquidMatterBlock(LiquidMatterBlock.defaultID, Material.rock).setUnlocalizedName("liquidMatterBlock");
+		liquidMatterBlock = new LiquidMatterBlock();
 		registerBlock(liquidMatterBlock, "Liquid Matter");
 	}
 
@@ -26,7 +26,7 @@ public class LiquidMatterBlocks {
 	 * @param name The human readable name of the block
 	 */
 	public static void registerBlock(Block block, String name) {
-		GameRegistry.registerBlock(block, LiquidMatter.modid + block.getUnlocalizedName().substring(5));
+		GameRegistry.registerBlock(block, block.getUnlocalizedName());
 		LanguageRegistry.addName(block, name);
 	}
 	
