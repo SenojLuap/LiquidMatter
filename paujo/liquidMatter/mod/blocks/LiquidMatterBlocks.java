@@ -8,14 +8,19 @@ import net.minecraft.block.material.Material;
 
 public class LiquidMatterBlocks {
 
-	public static Block liquidMatterBlock;
+	public static Block blockLiquidMatter;
+	public static Block blockCrucible;
 	
 	/*
 	 * Initialize all blocks
 	 */
 	public static void initBlocks() {
-		liquidMatterBlock = new LiquidMatterBlock();
-		registerBlock(liquidMatterBlock, "Liquid Matter");
+		blockLiquidMatter = new BlockLiquidMatter();
+		registerBlock(blockLiquidMatter, "Liquid Matter");
+		
+		// TODO LM Think up a better name
+		blockCrucible = new BlockCrucible();
+		registerBlock(blockCrucible, "Crucible");
 	}
 
 

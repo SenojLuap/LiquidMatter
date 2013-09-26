@@ -8,11 +8,12 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraftforge.fluids.BlockFluidClassic;
 
-public class LiquidMatterBlock extends BlockFluidClassic {
+public class BlockLiquidMatter extends BlockFluidClassic {
 
 	public static final int defaultID = 1000;
+	public static final String texture = "liquidMatter";
 
-	public LiquidMatterBlock() {
+	public BlockLiquidMatter() {
 		super(defaultID, LiquidMatterFluids.liquidMatterFluid, Material.water);
 	  setCreativeTab(LiquidMatter.liquidMatterTab);
 	  setUnlocalizedName("liquidMatterBlock");
@@ -21,6 +22,6 @@ public class LiquidMatterBlock extends BlockFluidClassic {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerIcons(IconRegister ir) {
-		blockIcon = ir.registerIcon(LiquidMatter.modid + ":" + getUnlocalizedName().substring(5));
+		blockIcon = ir.registerIcon(LiquidMatter.modid + ":" + texture);
 	}
 }
