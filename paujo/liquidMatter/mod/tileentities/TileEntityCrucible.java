@@ -1,14 +1,21 @@
 package paujo.liquidMatter.mod.tileentities;
 
-import paujo.liquidMatter.mod.LiquidMatterConversionTable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTank;
+import net.minecraftforge.fluids.FluidTankInfo;
+import net.minecraftforge.fluids.IFluidHandler;
+import paujo.liquidMatter.mod.LiquidMatterConversionTable;
+import paujo.liquidMatter.mod.fluids.LiquidMatterFluids;
 
-public class TileEntityCrucible extends TileEntity implements IInventory {
+public class TileEntityCrucible extends TileEntity implements IInventory, IFluidHandler {
 	
 	public static final int INVENTORY_SIZE = 28;
 
@@ -19,6 +26,8 @@ public class TileEntityCrucible extends TileEntity implements IInventory {
 	private static final int[] availableSlots;
 	
 	public int burn;
+	
+	public FluidTank tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 10);
 	
 	// Static initialization
 	static {
@@ -161,13 +170,15 @@ public class TileEntityCrucible extends TileEntity implements IInventory {
 	 * Called when the crucible as generated enough 'burn' to reduce the item 
 	 */
 	public void doBurn() {
-		inventory[BURN_SLOT].stackSize -= 1;
-		// TODO LM Generate liquid matter. Requires BuildCraft API
 		int lmGenerated = LiquidMatterConversionTable.getLiquidMatterValue(inventory[BURN_SLOT].getUnlocalizedName());
-		System.out.println("Generated " + lmGenerated + " mB of Liquid Matter");
-		if (inventory[BURN_SLOT].stackSize == 0)
-			inventory[BURN_SLOT] = (ItemStack)null;
-		burn -= lmGenerated;
+		if (tank.getFluidAmount() + lmGenerated <= tank.getCapacity()) {
+			inventory[BURN_SLOT].stackSize -= 1;
+			tank.fill(new FluidStack(LiquidMatterFluids.fluidLiquidMatter, lmGenerated), true);
+			if (inventory[BURN_SLOT].stackSize == 0)
+				inventory[BURN_SLOT] = (ItemStack)null;
+			burn -= lmGenerated;
+		} else burn = lmGenerated;
+		System.out.println("after do burn; lmGenerated=" + lmGenerated + " tank at " + tank.getFluidAmount() + " mB");
 	}
 	
 	/**
@@ -183,4 +194,40 @@ public class TileEntityCrucible extends TileEntity implements IInventory {
 		}
 		return -1;
 	}
+	
+	/*********************************************************
+	 * Fluid Handler
+	 ********************************************************/
+
+	@Override
+  public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+	  return 0;
+  }
+
+	@Override
+  public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
+		if (resource.isFluidEqual(tank.getFluid()))
+				return tank.drain(resource.amount, doDrain);
+		return null;
+  }
+
+	@Override
+  public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
+		return tank.drain(maxDrain, doDrain);
+  }
+
+	@Override
+  public boolean canFill(ForgeDirection from, Fluid fluid) {
+	  return false;
+  }
+
+	@Override
+  public boolean canDrain(ForgeDirection from, Fluid fluid) {
+		return tank.getFluidAmount() > 0 ? tank.getFluid().fluidID == fluid.getID() : false;
+  }
+
+	@Override
+  public FluidTankInfo[] getTankInfo(ForgeDirection from) {
+	  return new FluidTankInfo[] { tank.getInfo() };
+  }
 }
