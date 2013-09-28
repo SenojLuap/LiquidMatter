@@ -1,10 +1,9 @@
 package paujo.liquidMatter.mod.blocks;
 
-import paujo.liquidMatter.mod.LiquidMatter;
+import net.minecraft.block.Block;
+import net.minecraftforge.common.Configuration;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 
 public class LiquidMatterBlocks {
 
@@ -14,12 +13,12 @@ public class LiquidMatterBlocks {
 	/*
 	 * Initialize all blocks
 	 */
-	public static void initBlocks() {
-		blockLiquidMatter = new BlockLiquidMatter();
+	public static void initBlocks(Configuration config) {
+		blockLiquidMatter = new BlockLiquidMatter(config);
 		registerBlock(blockLiquidMatter, "Liquid Matter");
 		
 		// TODO LM Think up a better name
-		blockCrucible = new BlockCrucible();
+		blockCrucible = new BlockCrucible(config);
 		registerBlock(blockCrucible, "Crucible");
 	}
 
@@ -34,6 +33,6 @@ public class LiquidMatterBlocks {
 		GameRegistry.registerBlock(block, block.getUnlocalizedName());
 		LanguageRegistry.addName(block, name);
 	}
-	
-	
+
+
 }

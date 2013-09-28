@@ -6,11 +6,11 @@ import net.minecraftforge.fluids.FluidRegistry;
 
 public class LiquidMatterFluids {
 
-	public static Fluid liquidMatterFluid;
+	public static Fluid fluidLiquidMatter;
 	
 	public static void initFluids() {
-		liquidMatterFluid = new Fluid("liquidMatterFluid").setBlockID(BlockLiquidMatter.defaultID);
+		fluidLiquidMatter = new Fluid("fluidLiquidMatter").setBlockID(BlockLiquidMatter.defaultID);
 		
-		FluidRegistry.registerFluid(liquidMatterFluid);
+		FluidRegistry.registerFluid(fluidLiquidMatter);
 	}
 }

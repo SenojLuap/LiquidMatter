@@ -6,6 +6,7 @@ import paujo.liquidMatter.mod.LiquidMatter;
 import paujo.liquidMatter.mod.fluids.LiquidMatterFluids;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraftforge.common.Configuration;
 import net.minecraftforge.fluids.BlockFluidClassic;
 
 public class BlockLiquidMatter extends BlockFluidClassic {
@@ -13,10 +14,10 @@ public class BlockLiquidMatter extends BlockFluidClassic {
 	public static final int defaultID = 1000;
 	public static final String texture = "liquidMatter";
 
-	public BlockLiquidMatter() {
-		super(defaultID, LiquidMatterFluids.liquidMatterFluid, Material.water);
+	public BlockLiquidMatter(Configuration config) {
+		super(config.get("Blocks", "blockLiquidMatter", defaultID).getInt(), LiquidMatterFluids.fluidLiquidMatter, Material.water);
 	  setCreativeTab(LiquidMatter.liquidMatterTab);
-	  setUnlocalizedName("liquidMatterBlock");
+	  setUnlocalizedName("blockLiquidMatter");
   }
 
 	@SideOnly(Side.CLIENT)

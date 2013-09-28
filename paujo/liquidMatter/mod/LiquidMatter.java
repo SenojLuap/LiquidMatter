@@ -1,7 +1,10 @@
 package paujo.liquidMatter.mod;
 
+import java.io.File;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraftforge.common.Configuration;
 import paujo.liquidMatter.mod.blocks.LiquidMatterBlocks;
 import paujo.liquidMatter.mod.fluids.LiquidMatterFluids;
 import paujo.liquidMatter.mod.gui.LiquidMatterGuiHandler;
@@ -32,9 +35,15 @@ public class LiquidMatter {
 	public void load(FMLInitializationEvent event) {
 		initCreativeTab();
 		NetworkRegistry.instance().registerGuiHandler(instance, new LiquidMatterGuiHandler());
+		
+		Configuration config = new Configuration(new File("config/" + this.modid + ".cfg"));
+		config.load();
+		
 		LiquidMatterFluids.initFluids();
 		LiquidMatterTileEntities.initTileEntities();
-		LiquidMatterBlocks.initBlocks();
+		LiquidMatterBlocks.initBlocks(config);
+		
+		config.save();
 	}
 	
 	

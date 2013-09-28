@@ -111,4 +111,8 @@ public class TileEntityCrucible extends TileEntity implements IInventory {
 		return slot != BURN_SLOT;
   }
 
+	@Override
+	public void updateEntity() {
+		// TODO LM Create updateEntity() method in TileEntityCrucible
+	}
 }

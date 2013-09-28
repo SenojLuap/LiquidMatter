@@ -14,6 +14,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.Configuration;
 
 public class BlockCrucible extends BlockContainer {
 
@@ -26,8 +27,8 @@ public class BlockCrucible extends BlockContainer {
 	public Icon sideIcon;
 	public Icon topIdleIcon;
 	
-	protected BlockCrucible() {
-	  super(defaultID, Material.rock);
+	protected BlockCrucible(Configuration config) {
+	  super(config.get("Blocks", "blockCrucible", defaultID).getInt(), Material.rock);
 	  setUnlocalizedName("blockCrucible");
 	  setHardness(1.5F);
 	  setCreativeTab(LiquidMatter.liquidMatterTab);
