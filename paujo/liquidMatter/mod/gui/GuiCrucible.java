@@ -31,8 +31,9 @@ public class GuiCrucible extends GuiContainer {
 	public void drawGuiContainerForegroundLayer(int x, int y) {
 		String name = "Crucible";
 		
-		fontRenderer.drawString(name, (xSize - fontRenderer.getStringWidth(name)) / 2, 6, 4210752);
-		fontRenderer.drawString(I18n.getString("container.inventory"), 8, ySize - 94, 4210752);
+//		fontRenderer.drawString(name, (xSize - fontRenderer.getStringWidth(name)) / 2, 6, 4210752);
+		fontRenderer.drawString(name, (xSize - fontRenderer.getStringWidth(name)) / 2, 6, 16777215);
+		fontRenderer.drawString(I18n.getString("container.inventory"), 8, ySize - 94, 16777215);
 	}
 
 	@Override
