@@ -1,5 +1,6 @@
 package paujo.liquidMatter.mod.tileentities;
 
+import paujo.liquidMatter.mod.LiquidMatterConversionTable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
@@ -16,6 +17,8 @@ public class TileEntityCrucible extends TileEntity implements IInventory {
 	public static final int BURN_SLOT = INVENTORY_SIZE - 1;
 	
 	private static final int[] availableSlots;
+	
+	public int burn;
 	
 	// Static initialization
 	static {
@@ -62,7 +65,7 @@ public class TileEntityCrucible extends TileEntity implements IInventory {
   public ItemStack decrStackSize(int slot, int amount) {
 		ItemStack fromInventory = inventory[slot];
 		if (fromInventory == null) return null;
-		ItemStack out = new ItemStack(fromInventory.getItem());
+		ItemStack out = new ItemStack(fromInventory.getItem(), 0, fromInventory.getItemDamage());
 		if (amount > inventory[slot].stackSize) amount = fromInventory.stackSize;
 		fromInventory.stackSize -= amount;
 		out.stackSize = amount;
@@ -113,6 +116,71 @@ public class TileEntityCrucible extends TileEntity implements IInventory {
 
 	@Override
 	public void updateEntity() {
-		// TODO LM Create updateEntity() method in TileEntityCrucible
+		if (!getWorldObj().isRemote) {
+			if (!isBurning()) {
+				int index = getBurnableItem();
+				if (index != -1) {
+					ItemStack itemStack = inventory[index];
+					inventory[index] = (ItemStack)null;
+					inventory[BURN_SLOT] = itemStack;
+					burn += getBurnRate();
+				} else burn = 0;
+			} else {
+				burn += getBurnRate();
+				if (burn >= LiquidMatterConversionTable.getLiquidMatterValue(inventory[BURN_SLOT].getUnlocalizedName()))
+					doBurn();
+			}
+		}
+	}
+	
+	
+	/*********************************************************
+	 * Crucible
+	 ********************************************************/
+	
+	
+	/**
+	 * Returns true if the crucible is currently burning something, false otherwise
+	 * @return true if the crucible is currently burning something, false otherwise
+	 */
+	public boolean isBurning() {
+		return inventory[BURN_SLOT] != null;
+	}
+	
+	/**
+	 * Returns the rate at which the crucible is currently generating 'burn'
+	 * In the future, this will be modified by the upgrade slot
+	 * @return the rate at which the crucible is currently generating 'burn'
+	 */
+	public int getBurnRate() {
+		// TODO LM Implement update slot
+		return 1;
+	}
+	
+	/**
+	 * Called when the crucible as generated enough 'burn' to reduce the item 
+	 */
+	public void doBurn() {
+		inventory[BURN_SLOT].stackSize -= 1;
+		// TODO LM Generate liquid matter. Requires BuildCraft API
+		int lmGenerated = LiquidMatterConversionTable.getLiquidMatterValue(inventory[BURN_SLOT].getUnlocalizedName());
+		System.out.println("Generated " + lmGenerated + " mB of Liquid Matter");
+		if (inventory[BURN_SLOT].stackSize == 0)
+			inventory[BURN_SLOT] = (ItemStack)null;
+		burn -= lmGenerated;
+	}
+	
+	/**
+	 * Returns the index of the first burnable item in the inventory. Returns -1 if no items can be burned
+	 * @return the index of the first burnable item in the inventory. Returns -1 if no items can be burned
+	 */
+	public int getBurnableItem() {
+		for (int index = 0; index < BURN_SLOT; index++) {
+			ItemStack itemStack = inventory[index];
+			if (itemStack != null) System.out.println("Unlocalized name: " + itemStack.getUnlocalizedName());
+			if (itemStack != null && LiquidMatterConversionTable.isBurnable(itemStack.getUnlocalizedName()))
+				return index;
+		}
+		return -1;
 	}
 }
