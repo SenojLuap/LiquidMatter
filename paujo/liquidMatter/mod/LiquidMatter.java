@@ -39,6 +39,7 @@ public class LiquidMatter {
 		Configuration config = new Configuration(new File("config/" + this.modid + ".cfg"));
 		config.load();
 		
+		LiquidMatterConversionTable.init();
 		LiquidMatterFluids.initFluids();
 		LiquidMatterTileEntities.initTileEntities();
 		LiquidMatterBlocks.initBlocks(config);
