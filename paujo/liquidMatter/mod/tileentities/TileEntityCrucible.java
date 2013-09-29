@@ -39,6 +39,7 @@ public class TileEntityCrucible extends TileEntity implements IInventory, IFluid
 	@Override
   public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
+		tank.readFromNBT(compound);
   	for (int invIndex = 0; invIndex < inventory.length; invIndex++) {
   		String tag = "slot" + invIndex;
   		int stackSize = compound.getInteger(tag + "stackSize");
@@ -50,6 +51,7 @@ public class TileEntityCrucible extends TileEntity implements IInventory, IFluid
 	@Override
   public void writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
+		tank.writeToNBT(compound);
   	for (int invIndex = 0; invIndex < inventory.length ; invIndex++) {
   		ItemStack itemStack = inventory[invIndex];
   		if (itemStack != null) {

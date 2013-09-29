@@ -5,6 +5,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import paujo.liquidMatter.mod.LiquidMatter;
 import paujo.liquidMatter.mod.gui.LiquidMatterGuiHandler;
+import paujo.liquidMatter.mod.network.PacketHandler;
 import paujo.liquidMatter.mod.tileentities.TileEntityCrucible;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -60,7 +61,12 @@ public class BlockCrucible extends BlockContainer {
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if (!world.isRemote && player != null && !player.isSneaking()) {
-			FMLNetworkHandler.openGui(player, LiquidMatter.instance, LiquidMatterGuiHandler.guiIDCrucible, world, x, y, z);
+			TileEntityCrucible tileEntity = (TileEntityCrucible)world.getBlockTileEntity(x, y, z);
+			if (tileEntity != null) {
+				PacketHandler.sendCrucibleBurnInfo(tileEntity);
+				PacketHandler.sendCrucibleTankInfo(tileEntity);
+				FMLNetworkHandler.openGui(player, LiquidMatter.instance, LiquidMatterGuiHandler.guiIDCrucible, world, x, y, z);
+			}
 		}
 		return true;
 	}

@@ -29,7 +29,6 @@ public class PacketHandler implements IPacketHandler {
 		EntityPlayer entPlayer = (EntityPlayer)player;
 		switch (packetId) {
 			case CRUCIBLE_TANK_PACKET_ID: {
-				System.out.println("Tank Packet");
 				TileEntityCrucible tileEntity = (TileEntityCrucible)entPlayer.worldObj.getBlockTileEntity(reader.readInt(), reader.readInt(),
 						reader.readInt());
 				if (tileEntity != null) tileEntity.setFluidLevel(reader.readInt());
