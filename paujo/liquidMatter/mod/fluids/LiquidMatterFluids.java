@@ -1,16 +1,19 @@
 package paujo.liquidMatter.mod.fluids;
 
-import paujo.liquidMatter.mod.blocks.BlockLiquidMatter;
+import net.minecraftforge.common.Configuration;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
+import paujo.liquidMatter.mod.blocks.BlockLiquidMatter;
+import paujo.liquidMatter.mod.blocks.LiquidMatterBlocks;
 
 public class LiquidMatterFluids {
 
 	public static Fluid fluidLiquidMatter;
 	
-	public static void initFluids() {
-		fluidLiquidMatter = new Fluid("fluidLiquidMatter").setBlockID(BlockLiquidMatter.defaultID);
+	public static void initFluids(Configuration config) {
+		fluidLiquidMatter = new Fluid("fluidLiquidMatter").setBlockID(config.getBlock("blockLiquidMatter", BlockLiquidMatter.DEFAULT_ID).getInt());
 		
 		FluidRegistry.registerFluid(fluidLiquidMatter);
 	}
+	
 }

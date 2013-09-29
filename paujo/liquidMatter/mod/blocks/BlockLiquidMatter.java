@@ -12,14 +12,14 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockLiquidMatter extends BlockFluidClassic {
 
-	public static final int defaultID = 1000;
+	public static final int DEFAULT_ID = 1000;
 	public static final String TEXTURE_STILL = "liquidMatter_still";
 	public static final String TEXTURE_FLOWING = "liquidMatter_flowing";
 	
 	public Icon[] icons;
 
 	public BlockLiquidMatter(Configuration config) {
-		super(config.get("Blocks", "blockLiquidMatter", defaultID).getInt(), LiquidMatterFluids.fluidLiquidMatter, Material.water);
+		super(config.get("Blocks", "blockLiquidMatter", DEFAULT_ID).getInt(), LiquidMatterFluids.fluidLiquidMatter, Material.water);
 	  setCreativeTab(LiquidMatter.liquidMatterTab);
 	  setUnlocalizedName("blockLiquidMatter");
   }
