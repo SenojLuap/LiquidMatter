@@ -14,6 +14,7 @@ import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 import paujo.liquidMatter.mod.LiquidMatterConversionTable;
 import paujo.liquidMatter.mod.fluids.LiquidMatterFluids;
+import paujo.liquidMatter.mod.network.PacketHandler;
 
 public class TileEntityCrucible extends TileEntity implements IInventory, IFluidHandler {
 	
@@ -163,7 +164,7 @@ public class TileEntityCrucible extends TileEntity implements IInventory, IFluid
 	 */
 	public int getBurnRate() {
 		// TODO LM Implement update slot
-		return 1;
+		return 5;
 	}
 	
 	/**
@@ -174,11 +175,11 @@ public class TileEntityCrucible extends TileEntity implements IInventory, IFluid
 		if (tank.getFluidAmount() + lmGenerated <= tank.getCapacity()) {
 			inventory[BURN_SLOT].stackSize -= 1;
 			tank.fill(new FluidStack(LiquidMatterFluids.fluidLiquidMatter, lmGenerated), true);
+			updateClient();
 			if (inventory[BURN_SLOT].stackSize == 0)
 				inventory[BURN_SLOT] = (ItemStack)null;
 			burn -= lmGenerated;
 		} else burn = lmGenerated;
-		System.out.println("after do burn; lmGenerated=" + lmGenerated + " tank at " + tank.getFluidAmount() + " mB");
 	}
 	
 	/**
@@ -206,14 +207,19 @@ public class TileEntityCrucible extends TileEntity implements IInventory, IFluid
 
 	@Override
   public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
-		if (resource.isFluidEqual(tank.getFluid()))
-				return tank.drain(resource.amount, doDrain);
+		if (resource.isFluidEqual(tank.getFluid())) {
+			FluidStack res = tank.drain(resource.amount, doDrain); 
+			updateClient();
+			return res;
+		}
 		return null;
   }
 
 	@Override
   public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
-		return tank.drain(maxDrain, doDrain);
+		FluidStack res = tank.drain(maxDrain, doDrain); 
+		updateClient();
+		return res;
   }
 
 	@Override
@@ -230,4 +236,25 @@ public class TileEntityCrucible extends TileEntity implements IInventory, IFluid
   public FluidTankInfo[] getTankInfo(ForgeDirection from) {
 	  return new FluidTankInfo[] { tank.getInfo() };
   }
+	
+	
+	/*********************************************************
+	 * Network Handling
+	 ********************************************************/
+	
+	
+	public void setFluidLevel(int level) {
+		if (tank.getFluidAmount() == 0)
+			tank.fill(new FluidStack(LiquidMatterFluids.fluidLiquidMatter, level), true);
+		else
+			tank.getFluid().amount = level;
+	}
+	
+	/**
+	 * Sends the tank info to the client 
+	 */
+	public void updateClient() {
+		PacketHandler.sendCrucibleInfo(this);
+	}
+
 }
