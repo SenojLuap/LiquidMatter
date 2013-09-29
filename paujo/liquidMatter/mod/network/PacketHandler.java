@@ -44,8 +44,8 @@ public class PacketHandler implements IPacketHandler {
 	}
 	
 	/**
-	 * Updates the client side crucibles with the current liquid matter amount
-	 * @param crucible
+	 * Updates the client side crucible with the current liquid matter amount
+	 * @param crucible The crucible sending the information
 	 */
 	public static void sendCrucibleTankInfo(TileEntityCrucible crucible) {
 		ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
@@ -68,6 +68,11 @@ public class PacketHandler implements IPacketHandler {
 		}
 	}
 	
+	
+	/**
+	 * Updates the client side crucible with the current burn level
+	 * @param crucible The crucible sending the information
+	 */
 	public static void sendCrucibleBurnInfo(TileEntityCrucible crucible) {
 		ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
 		DataOutputStream dataStream = new DataOutputStream(byteStream);

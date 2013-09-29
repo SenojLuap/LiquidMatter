@@ -127,6 +127,7 @@ public class TileEntityCrucible extends TileEntity implements IInventory, IFluid
 	@Override
 	public void updateEntity() {
 		if (!getWorldObj().isRemote) {
+			int burnBefore = burn;
 			if (!isBurning()) {
 				int index = getBurnableItem();
 				if (index != -1) {
@@ -140,7 +141,8 @@ public class TileEntityCrucible extends TileEntity implements IInventory, IFluid
 				if (burn >= LiquidMatterConversionTable.getLiquidMatterValue(inventory[BURN_SLOT].getUnlocalizedName()))
 					doBurn();
 			}
-			PacketHandler.sendCrucibleBurnInfo(this);
+			if (burn != burnBefore)
+				PacketHandler.sendCrucibleBurnInfo(this);
 		}
 	}
 	
@@ -176,7 +178,7 @@ public class TileEntityCrucible extends TileEntity implements IInventory, IFluid
 		if (tank.getFluidAmount() + lmGenerated <= tank.getCapacity()) {
 			inventory[BURN_SLOT].stackSize -= 1;
 			tank.fill(new FluidStack(LiquidMatterFluids.fluidLiquidMatter, lmGenerated), true);
-			updateClient();
+			updateClientTank();
 			if (inventory[BURN_SLOT].stackSize == 0)
 				inventory[BURN_SLOT] = (ItemStack)null;
 			burn -= lmGenerated;
@@ -223,7 +225,7 @@ public class TileEntityCrucible extends TileEntity implements IInventory, IFluid
   public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
 		if (resource.isFluidEqual(tank.getFluid())) {
 			FluidStack res = tank.drain(resource.amount, doDrain); 
-			updateClient();
+			updateClientTank();
 			return res;
 		}
 		return null;
@@ -232,7 +234,7 @@ public class TileEntityCrucible extends TileEntity implements IInventory, IFluid
 	@Override
   public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
 		FluidStack res = tank.drain(maxDrain, doDrain); 
-		updateClient();
+		updateClientTank();
 		return res;
   }
 
@@ -267,7 +269,7 @@ public class TileEntityCrucible extends TileEntity implements IInventory, IFluid
 	/**
 	 * Sends the tank info to the client 
 	 */
-	public void updateClient() {
+	public void updateClientTank() {
 		PacketHandler.sendCrucibleTankInfo(this);
 	}
 
