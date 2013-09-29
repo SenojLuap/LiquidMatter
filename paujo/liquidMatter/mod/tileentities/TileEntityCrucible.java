@@ -140,6 +140,7 @@ public class TileEntityCrucible extends TileEntity implements IInventory, IFluid
 				if (burn >= LiquidMatterConversionTable.getLiquidMatterValue(inventory[BURN_SLOT].getUnlocalizedName()))
 					doBurn();
 			}
+			PacketHandler.sendCrucibleBurnInfo(this);
 		}
 	}
 	
@@ -194,6 +195,19 @@ public class TileEntityCrucible extends TileEntity implements IInventory, IFluid
 				return index;
 		}
 		return -1;
+	}
+	
+	/**
+	 * Returns the progress in 'burning' the current item
+	 * @return the progress in 'burning' the current item
+	 */
+	public float burnProgress() {
+		if (isBurning()) {
+			float res = (float)burn / (float)LiquidMatterConversionTable.getLiquidMatterValue(inventory[BURN_SLOT].getUnlocalizedName());
+			if (res > 1.0f) res = 1.0f;
+			return res;
+		}
+		return 0.0f;
 	}
 	
 	/*********************************************************
@@ -254,7 +268,7 @@ public class TileEntityCrucible extends TileEntity implements IInventory, IFluid
 	 * Sends the tank info to the client 
 	 */
 	public void updateClient() {
-		PacketHandler.sendCrucibleInfo(this);
+		PacketHandler.sendCrucibleTankInfo(this);
 	}
 
 }

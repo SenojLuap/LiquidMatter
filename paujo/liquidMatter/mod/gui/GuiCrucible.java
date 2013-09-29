@@ -30,6 +30,13 @@ public class GuiCrucible extends GuiContainer {
 	private static final int TANK_Y_POS = 7;
 	private static final int TANK_HEIGHT = 58;
 	
+	private static final int PROGRESS_TEXTURE_X_POS = 176;
+	private static final int PROGRESS_TEXTURE_Y_POS = 71;
+	private static final int PROGRESS_GUI_X_POS = 127;
+	private static final int PROGRESS_GUI_Y_POS = 48;
+	private static final int PROGRESS_WIDTH = 24;
+	private static final int PROGRESS_HEIGHT = 17;
+	
 	public GuiCrucible(InventoryPlayer inventoryPlayer, TileEntityCrucible tileEntityCrucible) {
 	  super(new ContainerCrucible(inventoryPlayer, tileEntityCrucible));
 	  this.tileEntityCrucible = tileEntityCrucible;
@@ -54,6 +61,7 @@ public class GuiCrucible extends GuiContainer {
     int yPos = (this.height - this.ySize) / 2;
     this.drawTexturedModalRect(xPos, yPos, 0, 0, this.xSize, this.ySize);
     drawTank(xPos, yPos);
+    drawProgress(xPos, yPos);
   }
 
 	public void drawTank(int xPos, int yPos) {
@@ -80,5 +88,10 @@ public class GuiCrucible extends GuiContainer {
 		}
 		mc.renderEngine.bindTexture(textureRL);
 		drawTexturedModalRect(xPos + TANK_X_POS, yPos + TANK_Y_POS, 176, 7, 16, 58);
+	}
+	
+	public void drawProgress(int xPos, int yPos) {
+		int width = MathHelper.floor_float((float)PROGRESS_WIDTH * tileEntityCrucible.burnProgress());
+		drawTexturedModalRect(xPos + PROGRESS_GUI_X_POS, yPos + PROGRESS_GUI_Y_POS, PROGRESS_TEXTURE_X_POS, PROGRESS_TEXTURE_Y_POS, width, PROGRESS_HEIGHT);
 	}
 }

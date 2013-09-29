@@ -59,8 +59,7 @@ public class BlockCrucible extends BlockContainer {
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		if (!world.isRemote) {
-			System.out.println("Got here");
+		if (!world.isRemote && player != null && !player.isSneaking()) {
 			FMLNetworkHandler.openGui(player, LiquidMatter.instance, LiquidMatterGuiHandler.guiIDCrucible, world, x, y, z);
 		}
 		return true;
