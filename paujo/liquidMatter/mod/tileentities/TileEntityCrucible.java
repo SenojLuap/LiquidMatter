@@ -1,5 +1,10 @@
 package paujo.liquidMatter.mod.tileentities;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import buildcraft.core.TileBuffer;
+import buildcraft.core.fluids.FluidUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -29,6 +34,8 @@ public class TileEntityCrucible extends TileEntity implements IInventory, IFluid
 	public int burn;
 	
 	public FluidTank tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 10);
+	
+	private TileBuffer[] tileBuffer;
 	
 	// Static initialization
 	static {
@@ -130,6 +137,7 @@ public class TileEntityCrucible extends TileEntity implements IInventory, IFluid
 	public void updateEntity() {
 		if (!getWorldObj().isRemote) {
 			int burnBefore = burn;
+			int tankBefore = tank.getFluidAmount();
 			if (!isBurning()) {
 				int index = getBurnableItem();
 				if (index != -1) {
@@ -143,8 +151,11 @@ public class TileEntityCrucible extends TileEntity implements IInventory, IFluid
 				if (burn >= LiquidMatterConversionTable.getLiquidMatterValue(inventory[BURN_SLOT].getUnlocalizedName()))
 					doBurn();
 			}
+			drainTank();
 			if (burn != burnBefore)
 				PacketHandler.sendCrucibleBurnInfo(this);
+			if (tank.getFluidAmount() != tankBefore)
+				updateClientTank();
 		}
 	}
 	
@@ -180,7 +191,7 @@ public class TileEntityCrucible extends TileEntity implements IInventory, IFluid
 		if (tank.getFluidAmount() + lmGenerated <= tank.getCapacity()) {
 			inventory[BURN_SLOT].stackSize -= 1;
 			tank.fill(new FluidStack(LiquidMatterFluids.fluidLiquidMatter, lmGenerated), true);
-			updateClientTank();
+			drainTank();
 			if (inventory[BURN_SLOT].stackSize == 0)
 				inventory[BURN_SLOT] = (ItemStack)null;
 			burn -= lmGenerated;
@@ -212,6 +223,15 @@ public class TileEntityCrucible extends TileEntity implements IInventory, IFluid
 			return res;
 		}
 		return 0.0f;
+	}
+	
+	/**
+	 * Will attempt to pump the contents of the tank into adjacent fluid handlers and pipes 
+	 */
+	public void drainTank() {
+		if(tileBuffer == null)
+			tileBuffer = TileBuffer.makeBuffer(worldObj, xCoord, yCoord, zCoord, false);
+		FluidUtils.pushFluidToConsumers(tank, 400, tileBuffer);
 	}
 	
 	/*********************************************************
