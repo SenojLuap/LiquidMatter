@@ -14,6 +14,10 @@ public class LiquidMatterItems {
 	// Buckets
 	public static Item itemLiquidMatterBucket;
 	
+	// Resources/Materials
+	public static Item itemCarbon;
+	public static Item itemNeutron;
+	
 	/**
 	 * Initializes fluid buckets. Fluid blocks must be initialized before this is called
 	 * @param config The configuration file with block/item IDs
@@ -22,7 +26,13 @@ public class LiquidMatterItems {
 		itemLiquidMatterBucket = new ItemLiquidMatterBucket(config);
 		registerItem(itemLiquidMatterBucket, "Liquid Matter Bucket");
 		FluidContainerRegistry.registerFluidContainer(new FluidStack(LiquidMatterFluids.fluidLiquidMatter, FluidContainerRegistry.BUCKET_VOLUME), new ItemStack(itemLiquidMatterBucket), new ItemStack(Item.bucketEmpty));
-	}
+		
+		itemNeutron = new ItemNeutron(config);
+		registerItem(itemNeutron, "Spoonful of Neutron");
+
+		itemCarbon= new ItemCarbon(config);
+		registerItem(itemCarbon, "Hyper-Dense Carbon");
+}
 
 	
 	/**

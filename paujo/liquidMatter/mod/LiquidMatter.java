@@ -58,6 +58,8 @@ public class LiquidMatter {
 		
 		LiquidMatterItems.initBuckets(config);
 		
+		LiquidMatterRecipes.initRecipes();
+		
 		config.save();
 		MinecraftForge.EVENT_BUS.register(this);
 	}
