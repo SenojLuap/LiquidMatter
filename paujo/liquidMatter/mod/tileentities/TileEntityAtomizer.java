@@ -21,7 +21,7 @@ import paujo.liquidMatter.mod.LiquidMatterConversionTable;
 import paujo.liquidMatter.mod.fluids.LiquidMatterFluids;
 import paujo.liquidMatter.mod.network.PacketHandler;
 
-public class TileEntityCrucible extends TileEntity implements IInventory, IFluidHandler {
+public class TileEntityAtomizer extends TileEntity implements IInventory, IFluidHandler {
 	
 	public static final int INVENTORY_SIZE = 28;
 

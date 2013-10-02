@@ -8,7 +8,7 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 public class LiquidMatterBlocks {
 
 	public static Block blockLiquidMatter;
-	public static Block blockCrucible;
+	public static Block blockAtomizer;
 	
 	/*
 	 * Initialize all blocks
@@ -18,8 +18,8 @@ public class LiquidMatterBlocks {
 		registerBlock(blockLiquidMatter, "Liquid Matter");
 		
 		// TODO LM Think up a better name
-		blockCrucible = new BlockCrucible(config);
-		registerBlock(blockCrucible, "Crucible");
+		blockAtomizer = new BlockAtomizer(config);
+		registerBlock(blockAtomizer, "Atomizer");
 	}
 
 

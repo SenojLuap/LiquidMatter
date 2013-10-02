@@ -6,7 +6,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import paujo.liquidMatter.mod.LiquidMatter;
 import paujo.liquidMatter.mod.gui.LiquidMatterGuiHandler;
 import paujo.liquidMatter.mod.network.PacketHandler;
-import paujo.liquidMatter.mod.tileentities.TileEntityCrucible;
+import paujo.liquidMatter.mod.tileentities.TileEntityAtomizer;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -17,7 +17,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.Configuration;
 
-public class BlockCrucible extends BlockContainer {
+public class BlockAtomizer extends BlockContainer {
 
 	public static final int defaultID = 1001;
 	
@@ -28,9 +28,9 @@ public class BlockCrucible extends BlockContainer {
 	public Icon sideIcon;
 	public Icon topIdleIcon;
 	
-	protected BlockCrucible(Configuration config) {
-	  super(config.get("Blocks", "blockCrucible", defaultID).getInt(), Material.rock);
-	  setUnlocalizedName("blockCrucible");
+	protected BlockAtomizer(Configuration config) {
+	  super(config.get("Blocks", "blockAtomizer", defaultID).getInt(), Material.rock);
+	  setUnlocalizedName("blockAtomizer");
 	  setHardness(1.5F);
 	  setCreativeTab(LiquidMatter.liquidMatterTab);
   }
@@ -45,7 +45,7 @@ public class BlockCrucible extends BlockContainer {
 	
 	@Override
   public TileEntity createNewTileEntity(World world) {
-	  return new TileEntityCrucible();
+	  return new TileEntityAtomizer();
   }
 
 	@Override
@@ -61,7 +61,7 @@ public class BlockCrucible extends BlockContainer {
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if (!world.isRemote && player != null && !player.isSneaking()) {
-			TileEntityCrucible tileEntity = (TileEntityCrucible)world.getBlockTileEntity(x, y, z);
+			TileEntityAtomizer tileEntity = (TileEntityAtomizer)world.getBlockTileEntity(x, y, z);
 			if (tileEntity != null) {
 				PacketHandler.sendCrucibleBurnInfo(tileEntity);
 				PacketHandler.sendCrucibleTankInfo(tileEntity);

@@ -7,7 +7,7 @@ import java.io.IOException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
-import paujo.liquidMatter.mod.tileentities.TileEntityCrucible;
+import paujo.liquidMatter.mod.tileentities.TileEntityAtomizer;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
@@ -29,13 +29,13 @@ public class PacketHandler implements IPacketHandler {
 		EntityPlayer entPlayer = (EntityPlayer)player;
 		switch (packetId) {
 			case CRUCIBLE_TANK_PACKET_ID: {
-				TileEntityCrucible tileEntity = (TileEntityCrucible)entPlayer.worldObj.getBlockTileEntity(reader.readInt(), reader.readInt(),
+				TileEntityAtomizer tileEntity = (TileEntityAtomizer)entPlayer.worldObj.getBlockTileEntity(reader.readInt(), reader.readInt(),
 						reader.readInt());
 				if (tileEntity != null) tileEntity.setFluidLevel(reader.readInt());
 				break;
 				}
 			case CRUCIBLE_BURN_PACKET_ID: {
-				TileEntityCrucible tileEntity = (TileEntityCrucible)entPlayer.worldObj.getBlockTileEntity(reader.readInt(), reader.readInt(), reader.readInt());
+				TileEntityAtomizer tileEntity = (TileEntityAtomizer)entPlayer.worldObj.getBlockTileEntity(reader.readInt(), reader.readInt(), reader.readInt());
 				if (tileEntity != null) tileEntity.burn = reader.readInt();
 				break;
 			}
@@ -46,7 +46,7 @@ public class PacketHandler implements IPacketHandler {
 	 * Updates the client side crucible with the current liquid matter amount
 	 * @param crucible The crucible sending the information
 	 */
-	public static void sendCrucibleTankInfo(TileEntityCrucible crucible) {
+	public static void sendCrucibleTankInfo(TileEntityAtomizer crucible) {
 		ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
 		DataOutputStream dataStream = new DataOutputStream(byteStream);
 		
@@ -72,7 +72,7 @@ public class PacketHandler implements IPacketHandler {
 	 * Updates the client side crucible with the current burn level
 	 * @param crucible The crucible sending the information
 	 */
-	public static void sendCrucibleBurnInfo(TileEntityCrucible crucible) {
+	public static void sendCrucibleBurnInfo(TileEntityAtomizer crucible) {
 		ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
 		DataOutputStream dataStream = new DataOutputStream(byteStream);
 		

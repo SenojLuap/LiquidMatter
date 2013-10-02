@@ -6,7 +6,7 @@ public class LiquidMatterTileEntities {
 	
 	
 	public static void initTileEntities() {
-		GameRegistry.registerTileEntity(TileEntityCrucible.class, "tileEntityCrucible");
+		GameRegistry.registerTileEntity(TileEntityAtomizer.class, "tileEntityCrucible");
 	}
 
 }

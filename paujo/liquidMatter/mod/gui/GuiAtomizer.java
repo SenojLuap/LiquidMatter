@@ -13,14 +13,14 @@ import org.lwjgl.opengl.GL11;
 
 import paujo.liquidMatter.mod.blocks.LiquidMatterBlocks;
 import paujo.liquidMatter.mod.container.ContainerCrucible;
-import paujo.liquidMatter.mod.tileentities.TileEntityCrucible;
+import paujo.liquidMatter.mod.tileentities.TileEntityAtomizer;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class GuiCrucible extends GuiContainer {
+public class GuiAtomizer extends GuiContainer {
 	
-	public TileEntityCrucible tileEntityCrucible;
+	public TileEntityAtomizer tileEntityCrucible;
 	
 	public static final String textureGuiCrucible = "textures/gui/guiCrucible.png";
 
@@ -37,7 +37,7 @@ public class GuiCrucible extends GuiContainer {
 	private static final int PROGRESS_WIDTH = 24;
 	private static final int PROGRESS_HEIGHT = 17;
 	
-	public GuiCrucible(InventoryPlayer inventoryPlayer, TileEntityCrucible tileEntityCrucible) {
+	public GuiAtomizer(InventoryPlayer inventoryPlayer, TileEntityAtomizer tileEntityCrucible) {
 	  super(new ContainerCrucible(inventoryPlayer, tileEntityCrucible));
 	  this.tileEntityCrucible = tileEntityCrucible;
 	  
@@ -47,7 +47,7 @@ public class GuiCrucible extends GuiContainer {
 	
 	@Override
 	public void drawGuiContainerForegroundLayer(int x, int y) {
-		String name = "Crucible";
+		String name = "Atomizer";
 		
 		fontRenderer.drawString(name, (xSize - fontRenderer.getStringWidth(name)) / 2, 6, 4210752);
 		fontRenderer.drawString(I18n.getString("container.inventory"), 8, ySize - 94, 4210752);

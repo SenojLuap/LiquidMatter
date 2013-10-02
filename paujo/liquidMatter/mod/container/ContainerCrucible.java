@@ -6,7 +6,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnace;
 import net.minecraft.item.ItemStack;
-import paujo.liquidMatter.mod.tileentities.TileEntityCrucible;
+import paujo.liquidMatter.mod.tileentities.TileEntityAtomizer;
 
 public class ContainerCrucible extends Container {
 	
@@ -16,9 +16,9 @@ public class ContainerCrucible extends Container {
 	private static final int Y_START_POS_PLAYER_HOTBAR = 198;
 	private static final int Y_BURN_SLOT_POS = 27;
 	
-	public TileEntityCrucible tileEntityCrucible;
+	public TileEntityAtomizer tileEntityCrucible;
 	
-	public ContainerCrucible(InventoryPlayer playerInventory, TileEntityCrucible tileEntityCrucible) {
+	public ContainerCrucible(InventoryPlayer playerInventory, TileEntityAtomizer tileEntityCrucible) {
 		this.tileEntityCrucible = tileEntityCrucible;
 		
 		// Crucible inventory slots
@@ -58,12 +58,12 @@ public class ContainerCrucible extends Container {
 		
 		ItemStack orig = itemStack.copy();
 		
-		if (slotIndex < TileEntityCrucible.INVENTORY_SIZE) {
-			if (!mergeItemStack(itemStack, TileEntityCrucible.INVENTORY_SIZE, inventorySlots.size(), false))
+		if (slotIndex < TileEntityAtomizer.INVENTORY_SIZE) {
+			if (!mergeItemStack(itemStack, TileEntityAtomizer.INVENTORY_SIZE, inventorySlots.size(), false))
 					return null;
 		}
 		else
-			if (!mergeItemStack(itemStack, 0, TileEntityCrucible.BURN_SLOT, false))
+			if (!mergeItemStack(itemStack, 0, TileEntityAtomizer.BURN_SLOT, false))
 				return null;
 		
 		
