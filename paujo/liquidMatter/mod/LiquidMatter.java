@@ -84,7 +84,6 @@ public class LiquidMatter {
 	@ForgeSubscribe
 	@SideOnly(Side.CLIENT)
 	public void textureHook(TextureStitchEvent.Post event) {
-		System.out.println("textureHook " + event.map.textureType);
 		if (event.map.textureType == 0) {
 			LiquidMatterFluids.fluidLiquidMatter.setIcons(LiquidMatterBlocks.blockLiquidMatter.getBlockTextureFromSide(1), LiquidMatterBlocks.blockLiquidMatter.getBlockTextureFromSide(2));
 		}
