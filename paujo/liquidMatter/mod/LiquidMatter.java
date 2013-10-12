@@ -51,7 +51,6 @@ public class LiquidMatter {
 		Configuration config = new Configuration(new File("config/" + this.modid + ".cfg"));
 		config.load();
 		
-		LiquidMatterConversionTable.init();
 		LiquidMatterFluids.initFluids(config);
 		LiquidMatterTileEntities.initTileEntities();
 		LiquidMatterBlocks.initBlocks(config);
@@ -62,6 +61,11 @@ public class LiquidMatter {
 		
 		config.save();
 		MinecraftForge.EVENT_BUS.register(this);
+	}
+	
+	@EventHandler
+	public void postInit(FMLInitializationEvent event) {
+		LiquidMatterConversionTable.init();
 	}
 	
 	

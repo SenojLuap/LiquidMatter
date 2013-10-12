@@ -148,7 +148,7 @@ public class TileEntityAtomizer extends TileEntity implements IInventory, IFluid
 				} else burn = 0;
 			} else {
 				burn += getBurnRate();
-				if (burn >= LiquidMatterConversionTable.getLiquidMatterValue(inventory[BURN_SLOT].getUnlocalizedName()))
+				if (burn >= LiquidMatterConversionTable.getLiquidMatterValue(inventory[BURN_SLOT]))
 					doBurn();
 			}
 			drainTank();
@@ -187,7 +187,7 @@ public class TileEntityAtomizer extends TileEntity implements IInventory, IFluid
 	 * Called when the crucible as generated enough 'burn' to reduce the item 
 	 */
 	public void doBurn() {
-		int lmGenerated = LiquidMatterConversionTable.getLiquidMatterValue(inventory[BURN_SLOT].getUnlocalizedName());
+		int lmGenerated = LiquidMatterConversionTable.getLiquidMatterValue(inventory[BURN_SLOT]);
 		if (tank.getFluidAmount() + lmGenerated <= tank.getCapacity()) {
 			inventory[BURN_SLOT].stackSize -= 1;
 			tank.fill(new FluidStack(LiquidMatterFluids.fluidLiquidMatter, lmGenerated), true);
@@ -206,7 +206,7 @@ public class TileEntityAtomizer extends TileEntity implements IInventory, IFluid
 		for (int index = 0; index < BURN_SLOT; index++) {
 			ItemStack itemStack = inventory[index];
 			if (itemStack != null) System.out.println("Unlocalized name: " + itemStack.getUnlocalizedName());
-			if (itemStack != null && LiquidMatterConversionTable.isBurnable(itemStack.getUnlocalizedName()))
+			if (itemStack != null && LiquidMatterConversionTable.isBurnable(itemStack))
 				return index;
 		}
 		return -1;
@@ -218,7 +218,7 @@ public class TileEntityAtomizer extends TileEntity implements IInventory, IFluid
 	 */
 	public float burnProgress() {
 		if (isBurning()) {
-			float res = (float)burn / (float)LiquidMatterConversionTable.getLiquidMatterValue(inventory[BURN_SLOT].getUnlocalizedName());
+			float res = (float)burn / (float)LiquidMatterConversionTable.getLiquidMatterValue(inventory[BURN_SLOT]);
 			if (res > 1.0f) res = 1.0f;
 			return res;
 		}
