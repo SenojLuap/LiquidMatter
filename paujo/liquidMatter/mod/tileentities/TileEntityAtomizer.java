@@ -19,7 +19,7 @@ import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 import paujo.liquidMatter.mod.LiquidMatterConversionTable;
 import paujo.liquidMatter.mod.fluids.LiquidMatterFluids;
-import paujo.liquidMatter.mod.network.PacketHandler;
+import paujo.liquidMatter.mod.network.LiquidMatterPacketHandler;
 
 public class TileEntityAtomizer extends TileEntity implements IInventory, IFluidHandler {
 	
@@ -153,7 +153,7 @@ public class TileEntityAtomizer extends TileEntity implements IInventory, IFluid
 			}
 			drainTank();
 			if (burn != burnBefore)
-				PacketHandler.sendCrucibleBurnInfo(this);
+				LiquidMatterPacketHandler.sendCrucibleBurnInfo(this);
 			if (tank.getFluidAmount() != tankBefore)
 				updateClientTank();
 		}
@@ -292,7 +292,7 @@ public class TileEntityAtomizer extends TileEntity implements IInventory, IFluid
 	 * Sends the tank info to the client 
 	 */
 	public void updateClientTank() {
-		PacketHandler.sendCrucibleTankInfo(this);
+		LiquidMatterPacketHandler.sendCrucibleTankInfo(this);
 	}
 
 }

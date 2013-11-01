@@ -8,6 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import paujo.liquidMatter.mod.tileentities.TileEntityAtomizer;
+import paujo.liquidMatter.mod.tileentities.TileEntitySolidarityEngine;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
@@ -16,10 +17,11 @@ import cpw.mods.fml.common.network.IPacketHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 
-public class PacketHandler implements IPacketHandler {
+public class LiquidMatterPacketHandler implements IPacketHandler {
 	
 	public static final byte CRUCIBLE_TANK_PACKET_ID = 0;
 	public static final byte CRUCIBLE_BURN_PACKET_ID = 1;
+	public static final byte SOLIDARITY_ENGINE_TANK_PACKET_ID = 2;
 
 	@Override
   public void onPacketData(INetworkManager manager, Packet250CustomPayload packet, Player player) {
@@ -37,6 +39,11 @@ public class PacketHandler implements IPacketHandler {
 			case CRUCIBLE_BURN_PACKET_ID: {
 				TileEntityAtomizer tileEntity = (TileEntityAtomizer)entPlayer.worldObj.getBlockTileEntity(reader.readInt(), reader.readInt(), reader.readInt());
 				if (tileEntity != null) tileEntity.burn = reader.readInt();
+				break;
+			}
+			case SOLIDARITY_ENGINE_TANK_PACKET_ID: {
+				TileEntitySolidarityEngine tileEntity = (TileEntitySolidarityEngine)entPlayer.worldObj.getBlockTileEntity(reader.readInt(), reader.readInt(), reader.readInt());
+				if (tileEntity != null) tileEntity.tankAmount = reader.readInt();
 				break;
 			}
 		}
@@ -90,6 +97,28 @@ public class PacketHandler implements IPacketHandler {
 							byteStream.toByteArray())));
 		} catch (IOException ex) {
 			System.err.append("Failed to send Crucible Burn Info");
+		}
+	}
+	
+	
+	public static void sendSolidarityEngineTankInfo(TileEntitySolidarityEngine engine) {
+		ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+		DataOutputStream dataStream = new DataOutputStream(byteStream);
+		
+		try {
+			dataStream.writeByte(SOLIDARITY_ENGINE_TANK_PACKET_ID);
+			
+			dataStream.writeInt(engine.xCoord);
+			dataStream.writeInt(engine.yCoord);
+			dataStream.writeInt(engine.zCoord);
+			
+			dataStream.writeInt(engine.tankAmount);
+			
+			PacketDispatcher.sendPacketToAllAround(engine.xCoord, engine.yCoord, engine.zCoord, 90,
+					engine.getWorldObj().provider.dimensionId, (PacketDispatcher.getPacket("lm_comms",
+							byteStream.toByteArray())));
+		} catch (IOException ex) {
+			System.err.append("Failed to send Solidarity Engine Tank Info");
 		}
 	}
 

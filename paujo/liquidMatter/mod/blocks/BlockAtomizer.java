@@ -5,7 +5,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import paujo.liquidMatter.mod.LiquidMatter;
 import paujo.liquidMatter.mod.gui.LiquidMatterGuiHandler;
-import paujo.liquidMatter.mod.network.PacketHandler;
+import paujo.liquidMatter.mod.network.LiquidMatterPacketHandler;
 import paujo.liquidMatter.mod.tileentities.TileEntityAtomizer;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -63,8 +63,8 @@ public class BlockAtomizer extends BlockContainer {
 		if (!world.isRemote && player != null && !player.isSneaking()) {
 			TileEntityAtomizer tileEntity = (TileEntityAtomizer)world.getBlockTileEntity(x, y, z);
 			if (tileEntity != null) {
-				PacketHandler.sendCrucibleBurnInfo(tileEntity);
-				PacketHandler.sendCrucibleTankInfo(tileEntity);
+				LiquidMatterPacketHandler.sendCrucibleBurnInfo(tileEntity);
+				LiquidMatterPacketHandler.sendCrucibleTankInfo(tileEntity);
 				FMLNetworkHandler.openGui(player, LiquidMatter.instance, LiquidMatterGuiHandler.guiIDCrucible, world, x, y, z);
 			}
 		}

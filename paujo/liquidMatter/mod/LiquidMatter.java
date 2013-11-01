@@ -16,7 +16,7 @@ import paujo.liquidMatter.mod.blocks.LiquidMatterBlocks;
 import paujo.liquidMatter.mod.fluids.LiquidMatterFluids;
 import paujo.liquidMatter.mod.gui.LiquidMatterGuiHandler;
 import paujo.liquidMatter.mod.items.LiquidMatterItems;
-import paujo.liquidMatter.mod.network.PacketHandler;
+import paujo.liquidMatter.mod.network.LiquidMatterPacketHandler;
 import paujo.liquidMatter.mod.tileentities.LiquidMatterTileEntities;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -30,7 +30,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @Mod(modid = LiquidMatter.modid, name="Liquid Matter", version = "Alpha v0.1")
-@NetworkMod(channels={"lm_comms"}, clientSideRequired=true, serverSideRequired=true, packetHandler=PacketHandler.class)
+@NetworkMod(channels={"lm_comms"}, clientSideRequired=true, serverSideRequired=true, packetHandler=LiquidMatterPacketHandler.class)
 public class LiquidMatter {
 	
 	public static final String modid = "liquidMatter";

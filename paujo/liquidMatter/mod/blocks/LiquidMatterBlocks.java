@@ -9,6 +9,7 @@ public class LiquidMatterBlocks {
 
 	public static Block blockLiquidMatter;
 	public static Block blockAtomizer;
+	public static Block blockSolidarityEngine;
 	
 	/*
 	 * Initialize all blocks
@@ -20,6 +21,9 @@ public class LiquidMatterBlocks {
 		// TODO LM Think up a better name
 		blockAtomizer = new BlockAtomizer(config);
 		registerBlock(blockAtomizer, "Atomizer");
+		
+		blockSolidarityEngine = new BlockSolidarityEngine(config);
+		registerBlock(blockSolidarityEngine, "Solidarity Engine");
 	}
 
 
