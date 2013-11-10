@@ -49,23 +49,26 @@ public class LiquidMatterConversionTable {
 		return item.getUnlocalizedName(new ItemStack(item, 1, damage));
 	}
 	
+	
+	public static String getUnlocalizedName(Block block, int meta) {
+		return new ItemStack(block, 1, meta).getUnlocalizedName();
+	}
+	
 	public static void init() {
 		table = new Hashtable<LMVTableEntry, Integer>(256);
 		
 		Configuration config = new Configuration(new File("config/" + LiquidMatter.modid + "_ConversionValues.cfg"));
 		config.load();
 		
-    System.out.println("Initializing alchemy values for Equivalent Exchange..");
-
     for (int dmg = 0; dmg < 4; dmg++) {
-      addLiquidMatterValue(config, Block.leaves.blockID, dmg, 1, Block.leaves.getUnlocalizedName());
-      addLiquidMatterValue(config, Block.wood.blockID, dmg, 32, Block.wood.getUnlocalizedName());
-      addLiquidMatterValue(config, Block.sapling.blockID, dmg, getLiquidMatterValue(Block.wood.blockID), Block.sapling.getUnlocalizedName());
+      addLiquidMatterValue(config, Block.leaves.blockID, dmg, 1, getUnlocalizedName(Block.leaves, dmg));
+      addLiquidMatterValue(config, Block.wood.blockID, dmg, 32, getUnlocalizedName(Block.wood, dmg));
+      addLiquidMatterValue(config, Block.sapling.blockID, dmg, getLiquidMatterValue(Block.wood.blockID), getUnlocalizedName(Block.sapling, dmg));
     }
-    addLiquidMatterValue(config, Item.coal.itemID, 1, getLiquidMatterValue(Block.wood.blockID), getUnlocalizedName(Item.coal, 1));
+    addLiquidMatterValue(config, Item.coal.itemID, 1, getLiquidMatterValue(Block.wood.blockID, 0), getUnlocalizedName(Item.coal, 1));
     addLiquidMatterValue(config, Item.redstone.itemID, 0, getLiquidMatterValue(Item.coal.itemID, 1) * 2, Item.redstone.getUnlocalizedName());
     addLiquidMatterValue(config, Item.coal.itemID, 0, getLiquidMatterValue(Item.coal.itemID, 1) * 4, getUnlocalizedName(Item.coal, 0));
-    addLiquidMatterValue(config, Block.planks.blockID, getLiquidMatterValue(Block.wood.blockID) / 4, Block.planks.getUnlocalizedName());
+    addLiquidMatterValue(config, Block.planks.blockID, getLiquidMatterValue(Block.wood.blockID, 0) / 4, Block.planks.getUnlocalizedName());
     addLiquidMatterValue(config, Block.workbench.blockID, getLiquidMatterValue(Block.planks.blockID) * 4, Block.workbench.getUnlocalizedName());
     addLiquidMatterValue(config, Item.doorWood.itemID, getLiquidMatterValue(Block.planks.blockID) * 6, Item.doorWood.getUnlocalizedName());
     addLiquidMatterValue(config, Block.chest.blockID, getLiquidMatterValue(Block.planks.blockID) * 8, Block.chest.getUnlocalizedName());

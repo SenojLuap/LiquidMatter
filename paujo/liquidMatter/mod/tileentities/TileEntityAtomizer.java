@@ -104,7 +104,7 @@ public class TileEntityAtomizer extends TileEntity implements IInventory, IFluid
 
 	@Override
   public String getInvName() {
-		return "Crucible";
+		return "Solidarity Engine";
   }
 
 	@Override

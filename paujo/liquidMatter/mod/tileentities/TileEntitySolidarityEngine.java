@@ -17,9 +17,9 @@ import paujo.liquidMatter.mod.network.LiquidMatterPacketHandler;
 
 public class TileEntitySolidarityEngine extends TileEntity implements IFluidHandler, IInventory {
 
-	private final static int INVENTORY_SIZE = 29;
-	private final static int DUP_SLOT = INVENTORY_SIZE-1;
-	private final static int UPGRADE_SLOT = INVENTORY_SIZE-2;
+	public final static int INVENTORY_SIZE = 29;
+	public final static int DUP_SLOT = INVENTORY_SIZE-1;
+	public final static int UPGRADE_SLOT = INVENTORY_SIZE-2;
 	
 	public int tankAmount;
 	
@@ -66,7 +66,7 @@ public class TileEntitySolidarityEngine extends TileEntity implements IFluidHand
 			if (inventory[DUP_SLOT] != null) {
 				int index = findValidOutputSlot();
 				int lmv = LiquidMatterConversionTable.getLiquidMatterValue(inventory[DUP_SLOT]);
-				if (index > -1 && tankAmount >= lmv) {
+				if (lmv > 0 && index > -1 && tankAmount >= lmv) {
 					tankAmount -= lmv;
 					if (inventory[index] != null)
 						inventory[index].stackSize++;
@@ -82,12 +82,13 @@ public class TileEntitySolidarityEngine extends TileEntity implements IFluidHand
 	public int findValidOutputSlot() {
 		// First, check for an ItemStack that the output can stack with
 		for (int index = 0; index < UPGRADE_SLOT; index++)
-			if (inventory[index].itemID == inventory[DUP_SLOT].itemID &&
+			if (inventory[index] != null)
+				if (inventory[index].itemID == inventory[DUP_SLOT].itemID &&
 					inventory[index].getItemDamage() == inventory[DUP_SLOT].getItemDamage() &&
 					inventory[index].stackSize < inventory[index].getMaxStackSize())
-				return index;
+					return index;
 		
-		// Next, check for a free slot
+//		 Next, check for a free slot
 		for (int index = 0; index < UPGRADE_SLOT; index++)
 			if (inventory[index] == null) return index;
 		
@@ -109,7 +110,10 @@ public class TileEntitySolidarityEngine extends TileEntity implements IFluidHand
   public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
 		if (resource.fluidID == LiquidMatterFluids.fluidLiquidMatter.getID()) {
 			int fill = Math.min(resource.amount, tankCapacity() - tankAmount);
-			if (doFill) tankAmount += fill;
+			if (doFill) {
+				tankAmount += fill;
+				LiquidMatterPacketHandler.sendSolidarityEngineTankInfo(this);
+			}
 			return fill;
 		}
 	  return 0;

@@ -12,7 +12,7 @@ import net.minecraftforge.fluids.FluidStack;
 import org.lwjgl.opengl.GL11;
 
 import paujo.liquidMatter.mod.blocks.LiquidMatterBlocks;
-import paujo.liquidMatter.mod.container.ContainerCrucible;
+import paujo.liquidMatter.mod.container.ContainerAtomizer;
 import paujo.liquidMatter.mod.tileentities.TileEntityAtomizer;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -38,7 +38,7 @@ public class GuiAtomizer extends GuiContainer {
 	private static final int PROGRESS_HEIGHT = 17;
 	
 	public GuiAtomizer(InventoryPlayer inventoryPlayer, TileEntityAtomizer tileEntityCrucible) {
-	  super(new ContainerCrucible(inventoryPlayer, tileEntityCrucible));
+	  super(new ContainerAtomizer(inventoryPlayer, tileEntityCrucible));
 	  this.tileEntityCrucible = tileEntityCrucible;
 	  
 	  this.xSize = 176;

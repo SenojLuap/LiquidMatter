@@ -8,24 +8,24 @@ import net.minecraft.inventory.SlotFurnace;
 import net.minecraft.item.ItemStack;
 import paujo.liquidMatter.mod.tileentities.TileEntityAtomizer;
 
-public class ContainerCrucible extends Container {
+public class ContainerAtomizer extends Container {
 	
 	private static final int X_START_POS = 8;
-	private static final int Y_START_POS_CRUCIBLE = 72;
+	private static final int Y_START_POS_ATOMIZER = 72;
 	private static final int Y_START_POS_PLAYER_INVENTORY = 140;
 	private static final int Y_START_POS_PLAYER_HOTBAR = 198;
 	private static final int Y_BURN_SLOT_POS = 27;
 	
 	public TileEntityAtomizer tileEntityCrucible;
 	
-	public ContainerCrucible(InventoryPlayer playerInventory, TileEntityAtomizer tileEntityCrucible) {
+	public ContainerAtomizer(InventoryPlayer playerInventory, TileEntityAtomizer tileEntityCrucible) {
 		this.tileEntityCrucible = tileEntityCrucible;
 		
 		// Crucible inventory slots
 		for (int ySlot = 0; ySlot < 3; ySlot++)
 			for (int xSlot = 0; xSlot < 9; xSlot++) {
 				addSlotToContainer(new Slot(tileEntityCrucible, xSlot + (ySlot * 9), X_START_POS + (xSlot * 18),
-						Y_START_POS_CRUCIBLE + (ySlot * 18) ));
+						Y_START_POS_ATOMIZER + (ySlot * 18) ));
 			}
 		
 		// Crucible burn slot
